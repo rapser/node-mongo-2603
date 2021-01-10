@@ -22,7 +22,11 @@ export const getProductById = async (req, res) => {
 
     const product = await Product.findById(req.params.productId)
 
-    res.json(product)
+    if (!product) {
+        res.status(404).json()
+    } else {
+        res.status(200).json(product)
+    }  
     
 }
 
@@ -39,6 +43,11 @@ export const deleteProductById = async (req, res) => {
     
     const { productId } = req.params
 
-    await Product.findByIdAndDelete(productId)
-    res.status(204).json()
+    const prod = await Product.findByIdAndDelete(productId)
+
+    if (!prod) {
+        res.status(404).json()
+    } else {
+        res.status(204).json()
+    }    
 }
