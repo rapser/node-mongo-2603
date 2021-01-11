@@ -7,13 +7,17 @@ import Role from '../models/Role'
 export const verifyToken = async (req, res, next) => {
 
     try {
-        const token = req.headers["x-access-token"]
+        const bearerHeader = req.headers["authorization"]
+    
+        if (!bearerHeader) return res.status(403).json({message: "no token provider"})
 
-        console.log(token)
+        const bearer = bearerHeader.split(' ')
+        const bearerToken = bearer[1]
+        req.token = bearerToken
+
+//        console.log(bearerToken)
     
-        if (!token) return res.status(403).json({message: "no token provider"})
-    
-        const decoded = jwt.verify(token, config.SECRET)
+        const decoded = jwt.verify(req.token, config.SECRET)
         req.userId = decoded.id
     
         const user = await User.findById(req.userId, {password: 0})
