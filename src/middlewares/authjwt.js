@@ -27,7 +27,7 @@ export const verifyToken = async (req, res, next) => {
         console.log(decoded)
         next()
     } catch (error) {
-        return res.status(500).json({message: "not autorized"})
+        return res.status(401).json({message: "not autorized"})
     }
 }
 
