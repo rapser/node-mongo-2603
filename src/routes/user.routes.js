@@ -10,4 +10,12 @@ router.post('/', [
     verifysignup.checkRoleExisted
 ], userCtrl.createUser)
 
+router.get('/', [
+    authjwt.verifyToken
+], userCtrl.getUsers)
+
+router.get('/:userId', [
+    authjwt.verifyToken
+], userCtrl.getUser)
+
 export default router
